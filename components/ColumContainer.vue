@@ -1,7 +1,7 @@
 <template>
-  <div class="max-w-sm space-y-1">
-    <div class="flex item-center pb-4 justify-between gap-2">
-      <p class="font-bold text-lg">Recruitment pieaces</p>
+  <div class="min-w-[350px] space-y-2 overflow-y-scroll scrollbar">
+    <div class="flex items-center pb-4 justify-between gap-2">
+      <p class="font-bold text-lg">{{ title }}</p>
       <p>
         <svg
           xmlns="http://www.w3.org/2000/svg"
@@ -19,3 +19,12 @@
     <slot></slot>
   </div>
 </template>
+
+<script setup>
+defineProps({
+  title: {
+    type: String,
+    required: true,
+  },
+});
+</script>
