@@ -13,6 +13,7 @@
           v-model="item.items"
           group="people"
           class="space-y-3"
+          ghost-class="ghost"
           style="height: calc(100vh - 100px)"
         >
           <template #item="{ element }">
@@ -166,12 +167,16 @@ const editTitle = () => {
 .scrollbar::-webkit-scrollbar {
   width: 5px;
   height: 8px;
-  background-color: transparent; /* or add it to the track */
+  background-color: #d4eafd;
 }
 
 .scrollbar::-webkit-scrollbar-thumb {
   background: #bbdefb;
   max-height: 20px;
   border-radius: 50px;
+}
+
+.ghost {
+  background-color: #bbdefb;
 }
 </style>

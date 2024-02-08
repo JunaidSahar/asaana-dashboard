@@ -1,6 +1,8 @@
 <template>
   <div class="min-w-[350px] space-y-2 overflow-y-scroll scrollbar px-3">
-    <div class="flex items-center pb-4 justify-between gap-2">
+    <div
+      class="flex items-center pb-4 justify-between gap-2 sticky top-0 bg-[#f4f4f6]"
+    >
       <p class="font-bold text-lg">{{ title }}</p>
       <p
         class="text-lg text-slate-700 cursor-pointer"
@@ -9,7 +11,7 @@
         <Icon name="material-symbols:drive-file-rename-outline-outline" />
       </p>
     </div>
-    <slot></slot>
+    <slot> </slot>
   </div>
 </template>
 
