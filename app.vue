@@ -3,13 +3,13 @@
     <div class="p-6 flex gap-4 h-screen overflow-x-scroll">
       <ColumContainer
         :title="item.name"
-        @editTitle="
-          (selectedRowForEdit = item.name), (isOpenEditListModal = true)
-        "
+        @editTitle="(selectedColumnForEdit = item.id), (isOpenEditListModal = true)"
+        @deleteTitle="(selectedColumnForEdit = item.id), (isOpenDeleteListModal = true)"
         v-for="(item, index) in columList"
         :key="index"
       >
         <draggable
+          :itemKey="String(index)"
           v-model="item.items"
           group="people"
           class="space-y-3"
@@ -45,16 +45,31 @@
       <AddListModal
         v-if="isOpenAddListModal"
         title="Add new colum"
+        :selectedColumn="
+          columList.find((column) => column.id == selectedColumnForEdit)?.name
+        "
         @disableModal="isOpenAddListModal = false"
         @inputValue="(value) => (ModalTitle = value)"
         @submitForm="addItemToList"
       />
       <AddListModal
         title="Edit colum name"
+        :selectedColumn="
+          columList.find((column) => column.id == selectedColumnForEdit).name
+        "
         v-if="isOpenEditListModal"
         @disableModal="isOpenEditListModal = false"
         @inputValue="(value) => (ModalTitle = value)"
         @submitForm="editTitle"
+      />
+      <DeleteColumnModal
+        title="Are you sure you want to delete?"
+        :selectedColumn="
+          columList.find((column) => column.id == selectedColumnForEdit).name
+        "
+        v-if="isOpenDeleteListModal"
+        @disableModal="isOpenDeleteListModal = false"
+        @submitForm="deleteTitle"
       />
     </div>
   </div>
@@ -63,9 +78,11 @@
 <script setup>
 const isOpenAddListModal = ref(false);
 const isOpenEditListModal = ref(false);
+const isOpenDeleteListModal = ref(false);
 const ModalTitle = ref("");
 const columList = ref([
   {
+    id: 0,
     name: "Todo",
     items: [
       {
@@ -104,6 +121,7 @@ const columList = ref([
     ],
   },
   {
+    id: 1,
     name: "Completed",
     items: [
       {
@@ -124,6 +142,7 @@ const columList = ref([
     ],
   },
   {
+    id: 2,
     name: "sample",
     items: [
       {
@@ -142,24 +161,28 @@ const columList = ref([
 
 class List {
   constructor(name) {
+    this.id = name;
     this.name = name;
     this.items = [];
   }
 }
 
-const selectedRowForEdit = ref();
+const selectedColumnForEdit = ref();
 const addItemToList = () => {
-  columList.value.push(new List(ModalTitle.value, []));
+  columList.value.push({ id: columList.value.length, name: ModalTitle.value, items: [] });
   isOpenAddListModal.value = false;
 };
 
 const editTitle = () => {
-  columList.value.forEach((list) => {
-    if (list.name === selectedRowForEdit.value) {
-      list.name = ModalTitle.value;
-    }
-  });
+  columList.value.find((list) => list.id === selectedColumnForEdit.value).name =
+    ModalTitle.value;
   isOpenEditListModal.value = false;
+};
+const deleteTitle = () => {
+  isOpenDeleteListModal.value = false;
+  columList.value = columList.value.filter(
+    (list) => list.id !== selectedColumnForEdit.value
+  );
 };
 </script>
 
@@ -174,9 +197,5 @@ const editTitle = () => {
   background: #bbdefb;
   max-height: 20px;
   border-radius: 50px;
-}
-
-.ghost {
-  background-color: #bbdefb;
 }
 </style>

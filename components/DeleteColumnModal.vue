@@ -24,19 +24,13 @@
         </p>
       </div>
       <form @submit.prevent="$emit('submitForm')">
-        <label for="name" class="font-medium">Title</label>
-        <input
-          type="text"
-          id="name"
-          :value="selectedColumn"
-          @input="(e) => $emit('inputValue', e.target.value)"
-          class="w-full px-4 py-2 mt-2 text-gray-700 bg-white border border-gray-200 rounded"
-        />
+        <p for="name" class="font-medium">Title: {{ selectedColumn }}</p>
+
         <button
           type="submit"
-          class="px-5 bg-blue-500 font-medium text-white rounded-lg mt-5 py-2"
+          class="px-5 bg-red-500 hover:bg-red-600 font-medium text-white rounded-lg mt-5 py-2"
         >
-          Add
+          Delete
         </button>
       </form>
     </div>
