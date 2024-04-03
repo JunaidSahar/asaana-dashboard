@@ -1,10 +1,7 @@
 <template>
   <button
-    data-drawer-target="default-sidebar"
-    data-drawer-toggle="default-sidebar"
-    aria-controls="default-sidebar"
-    type="button"
-    class="inline-flex items-center p-2 mt-2 ms-3 text-sm text-gray-500 rounded-lg sm:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-600"
+    @click="isOpenNav = !isOpenNav"
+    class="inline-flex items-center p-2 mt-2 ms-3 text-sm text-gray-500 rounded-lg md:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-600"
   >
     <span class="sr-only">Open sidebar</span>
     <svg
@@ -23,14 +20,13 @@
   </button>
 
   <aside
-    id="default-sidebar"
-    class="fixed top-0 left-0 z-40 w-64 h-screen transition-transform -translate-x-full sm:translate-x-0"
-    aria-label="Sidebar"
+    class="fixed top-0 left-0 z-40 w-64 h-screen transition-transform -translate-x-full md:translate-x-0"
+    :class="isOpenNav ? 'translate-x-0' : ''"
   >
     <div class="h-full px-3 py-4 space-y-4 overflow-y-auto bg-[#f4f4f6]">
       <div>
         <button
-          class="flex justify-between w-full text-lg hover:bg-blue-500 transition-all hover:text-white p-1 rounded-lg items-center"
+          class="flex font-medium justify-between w-full text-lg hover:bg-blue-500 transition-all hover:text-white p-1 rounded-lg items-center"
         >
           New Chat
           <svg
@@ -49,7 +45,7 @@
       <ul class="space-y-2 font-medium">
         <li
           v-for="(list, index) in promptList"
-          class="line-clamp-1"
+          class="line-clamp-1 p-1 hover:bg-white transition-all text-gray-600 hover:text-black cursor-pointer rounded-lg"
           :key="index"
         >
           {{ list }}
@@ -58,9 +54,9 @@
     </div>
   </aside>
 
-  <div class="sm:ml-64">
+  <div class="md:ml-64">
     <div class="max-w-3xl mx-auto relative h-screen p-4">
-      <div class="flex items-center justify-center h-96">
+      <div class="flex items-center justify-center h-96" v-if="!showMessage">
         <h2 class="text-3xl font-medium">How can I help you today?</h2>
       </div>
       <div class="space-y-10 pb-28" v-if="showMessage">
@@ -68,17 +64,24 @@
           <div v-if="message.type === 'code'" class="code-snippet">
             <pre><code v-html="highlightCode(message.content, message.language)"></code></pre>
           </div>
-          <div v-else>{{ message.content }}</div>
+          <div v-else>
+            <p>
+              {{ message.content }}
+            </p>
+          </div>
         </div>
       </div>
       <div
-        class="fixed px-4 py-2 bg-[#f4f4f6] bottom-8 flex items-center gap-4 border border-slate-200 rounded-lg w-6/12"
+        class="fixed lg:w-[720px] md:w-[520px] w-full px-4 py-2 bg-[#f4f4f6] bottom-8 flex items-end gap-4 border border-slate-200 rounded-lg"
       >
-        <input
+        <textarea
+          id="note"
           type="text"
           v-model="searchValue"
+          @input="autoResizeTextArea"
           placeholder="Write a message..."
-          class="bg-[#f4f4f6] w-full focus:outline-0"
+          rows="1"
+          class="bg-[#f4f4f6] w-full focus:outline-0 overflow-hidden autoresize"
         />
         <button
           class="p-3 bg-white rounded-lg"
@@ -103,6 +106,11 @@
       </div>
     </div>
   </div>
+  <div
+    v-if="isOpenNav"
+    @click="isOpenNav = false"
+    class="absolute top-0 left-0 w-full h-screen bg-black z-30 opacity-40"
+  ></div>
 </template>
 <script setup>
 import hljs from "highlight.js/lib/core";
@@ -115,6 +123,14 @@ import css from "highlight.js/lib/languages/css";
 
 hljs.registerLanguage("javascript", javascript);
 hljs.registerLanguage("css", css);
+
+const autoResizeTextArea = () => {
+  const textarea = document.getElementById("note");
+  textarea.style.height = "auto";
+  textarea.style.height = textarea.scrollHeight + "px";
+};
+
+const isOpenNav = ref(false);
 
 const messages = [
   {
@@ -177,5 +193,13 @@ const promptList = ref([]);
   border-radius: 4px;
   overflow-x: auto;
   border: 1px solid rgb(226, 232, 240);
+}
+
+.autoresize {
+  resize: none; /* Disable manual resizing */
+  height: auto; /* Set initial height to auto */
+  min-height: 32px; /* Set minimum height */
+  max-height: 100px; /* Set maximum height */
+  overflow-y: hidden; /* Hide scrollbar */
 }
 </style>
