@@ -37,7 +37,7 @@
       <div class="flex items-center justify-center h-96" v-if="!showMessage">
         <h2 class="text-3xl font-medium">How can I help you today?</h2>
       </div>
-      <div class="space-y-10 pb-28 pt-10" v-if="showMessage">
+      <div class="space-y-10 pb-40 pt-10" v-if="showMessage">
         <div v-for="message in messages" class="relative">
           <img class="w-10 absolute -left-16" :src="message.sender == 'bot' ? '/bot.png' : '/human.png'" />
           <div class="w-full">
@@ -238,7 +238,7 @@ const showKnownLanguages = ref(false)
   /* Set initial height to auto */
   min-height: 32px;
   /* Set minimum height */
-  max-height: 100px;
+  max-height: 150px;
   /* Set maximum height */
   overflow-y: auto;
   /* Hide scrollbar */
