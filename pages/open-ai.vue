@@ -58,10 +58,21 @@
         class="fixed lg:w-[720px] md:w-[520px] w-full px-4 py-2 bg-[#f4f4f6] bottom-8 flex items-end gap-4 border border-slate-200 rounded-lg">
         <textarea id="note" type="text" v-model="query" @input="autoResizeTextArea" placeholder="Write a message..."
           rows="1" class="bg-[#f4f4f6] w-full focus:outline-0 overflow-hidden autoresize" />
+        <button class="p-2 bg-white rounded-lg relative" @mouseenter="showKnownLanguages = true"
+          @mouseleave="showKnownLanguages = false">
+          <div v-if="showKnownLanguages" class="absolute bottom-10 right-0 bg-white border border-gray-200 rounded">
+            <button @click="addBackticksAroundSelection(knownLanguage.value)"
+              class="hover:bg-gray-100 px-2 py-1 border-b w-full text-left capitalize"
+              v-for="knownLanguage in knownLanguages">{{ knownLanguage.name }}</button>
+          </div>
+          <span>{{ '</>' }}</span>
+        </button>
+
         <button class="p-3 bg-white rounded-lg" @click="
     sendQuery(query),
     messages.length == 0 && chatsList.push('Chat 1'),
     (query = ''),
+    autoResizeTextArea(),
     (showMessage = true)
     ">
           <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 20 20">
@@ -169,7 +180,42 @@ function separateTextAndCode(inputString) {
 }
 
 
+const addBackticksAroundSelection = (language) => {
+  const textarea = document.getElementById("note");
+  const selectionStart = textarea.selectionStart;
+  const selectionEnd = textarea.selectionEnd;
 
+  if (selectionStart !== null && selectionEnd !== null) {
+    const selectedText = textarea.value.substring(selectionStart, selectionEnd);
+    const newText = textarea.value.substring(0, selectionStart) + '````' + language + '\n' + selectedText + '````' + textarea.value.substring(selectionEnd);
+    query.value = newText;
+  }
+  showKnownLanguages.value = false
+};
+
+const knownLanguages = [
+{
+    name: "Python",
+    value: "python",
+  },
+  {
+    name: "Bash",
+    value: "bash",
+  },
+  {
+    name: "C++",
+    value: "cpp",
+  },
+  {
+    name: "Markdown",
+    value: "md",
+  },
+  {
+    name: "Other",
+    value: "md",
+  },
+]
+const showKnownLanguages = ref(false)
 </script>
 
 <style scoped>
@@ -194,7 +240,13 @@ function separateTextAndCode(inputString) {
   /* Set minimum height */
   max-height: 100px;
   /* Set maximum height */
-  overflow-y: hidden;
+  overflow-y: auto;
   /* Hide scrollbar */
+  scrollbar-width: none; /* Hide scrollbar for Firefox */
+  -ms-overflow-style: none; /* Hide scrollbar for IE/Edge */
 }
+.autoresize::-webkit-scrollbar {
+  display: none; /* Hide scrollbar for Webkit browsers (Chrome, Safari) */
+}
+
 </style>
