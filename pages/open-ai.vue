@@ -70,8 +70,9 @@
     class="absolute top-0 right-0 w-full h-screen bg-black z-30 opacity-40"></div>
 </template>
 <script setup>
-import { highlightCode } from '@/composables/highlightCode'; // import all langauges, this may make bundle size big | above example load manually
-import { separateTextAndCode } from '@/composables/separateCodeAndText'; // import all langauges, this may make bundle size big | above example load manually
+import { highlightCode } from '@/composables/highlightCode';
+import { separateTextAndCode } from '@/composables/separateCodeAndText';
+import knownLanguage from '@/composables/knownLanguages';
 
 import "highlight.js/styles/github.css";
 const showMessage = ref(false);
@@ -118,28 +119,6 @@ const addBackticksAroundSelection = (language) => {
   showKnownLanguages.value = false
 };
 
-const knownLanguages = [
-  {
-    name: "Python",
-    value: "python",
-  },
-  {
-    name: "Bash",
-    value: "bash",
-  },
-  {
-    name: "C++",
-    value: "cpp",
-  },
-  {
-    name: "Markdown",
-    value: "md",
-  },
-  {
-    name: "Other",
-    value: "md",
-  },
-]
 const showKnownLanguages = ref(false)
 </script>
 
