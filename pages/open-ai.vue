@@ -1,22 +1,39 @@
 <template>
-  <button @click="isOpenNav = !isOpenNav"
-    class="inline-flex items-center p-2 mt-2 ms-3 text-sm text-gray-500 rounded-lg md:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-600">
+  <button
+    @click="isOpenNav = !isOpenNav"
+    class="inline-flex items-center p-2 mt-2 ms-3 text-sm text-gray-500 rounded-lg md:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-600"
+  >
     <span class="sr-only">Open sidebar</span>
-    <svg class="w-6 h-6" aria-hidden="true" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
-      <path clip-rule="evenodd" fill-rule="evenodd"
-        d="M2 4.75A.75.75 0 012.75 4h14.5a.75.75 0 010 1.5H2.75A.75.75 0 012 4.75zm0 10.5a.75.75 0 01.75-.75h7.5a.75.75 0 010 1.5h-7.5a.75.75 0 01-.75-.75zM2 10a.75.75 0 01.75-.75h14.5a.75.75 0 010 1.5H2.75A.75.75 0 012 10z">
-      </path>
+    <svg
+      class="w-6 h-6"
+      aria-hidden="true"
+      fill="currentColor"
+      viewBox="0 0 20 20"
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <path
+        clip-rule="evenodd"
+        fill-rule="evenodd"
+        d="M2 4.75A.75.75 0 012.75 4h14.5a.75.75 0 010 1.5H2.75A.75.75 0 012 4.75zm0 10.5a.75.75 0 01.75-.75h7.5a.75.75 0 010 1.5h-7.5a.75.75 0 01-.75-.75zM2 10a.75.75 0 01.75-.75h14.5a.75.75 0 010 1.5H2.75A.75.75 0 012 10z"
+      ></path>
     </svg>
   </button>
 
-  <div class="md:mr-64">
+  <div class="md:ml-[400px]">
     <div class="max-w-3xl mx-auto relative h-screen p-4">
-      <div class="flex items-center justify-center h-96" v-if="!showMessage">
+      <div
+        class="flex flex-col items-center justify-center h-96"
+        v-if="!showMessage"
+      >
+        <Icon name="material-symbols:android" class="h-12 w-12" />
         <h2 class="text-3xl font-medium">How can I help you today?</h2>
       </div>
       <div class="space-y-10 pb-40 pt-10" v-if="showMessage">
         <div v-for="message in messages" class="relative">
-          <img class="w-10 absolute -left-16" :src="message.sender == 'bot' ? '/bot.png' : '/human.png'" />
+          <img
+            class="w-8 absolute -left-16"
+            :src="message.sender == 'bot' ? '/bot.svg' : '/human.png'"
+          />
           <div class="w-full">
             <div v-for="line in message.content" class="relative">
               <div v-if="line.type == 'code'" class="code-snippet">
@@ -32,47 +49,90 @@
         </div>
       </div>
       <div
-        class="fixed lg:w-[720px] md:w-[520px] w-full px-4 py-2 bg-[#f4f4f6] bottom-8 flex items-end gap-4 border border-slate-200 rounded-lg">
-        <textarea id="query" type="text" v-model="query" @input="autoResizeTextArea" placeholder="Write a message..."
-          rows="1" class="bg-[#f4f4f6] w-full focus:outline-0 overflow-hidden autoresize" />
-        <button class="p-2 bg-white rounded-lg relative" @mouseenter="showKnownLanguages = true"
-          @mouseleave="showKnownLanguages = false">
-          <div v-if="showKnownLanguages" class="absolute bottom-10 right-0 bg-white border border-gray-200 rounded">
-            <button @click="addBackticksAroundSelection(knownLanguage.value)"
+        class="fixed lg:w-[720px] md:w-[520px] w-full px-4 py-2 bg-[#f4f4f6] bottom-8 flex items-end gap-4 border border-slate-200 rounded-lg"
+      >
+        <textarea
+          id="query"
+          type="text"
+          v-model="query"
+          @input="autoResizeTextArea"
+          placeholder="Write a message..."
+          rows="1"
+          class="bg-[#f4f4f6] w-full focus:outline-0 overflow-hidden autoresize"
+        />
+        <button
+          class="p-3 bg-white rounded-lg relative"
+          @mouseenter="showKnownLanguages = true"
+          @mouseleave="showKnownLanguages = false"
+        >
+          <div
+            v-if="showKnownLanguages"
+            class="absolute bottom-10 right-0 bg-white border border-gray-200 rounded"
+          >
+            <button
+              @click="addBackticksAroundSelection(knownLanguage.value)"
               class="hover:bg-gray-100 px-2 py-1 border-b w-full text-left capitalize"
-              v-for="knownLanguage in knownLanguages">{{ knownLanguage.name }}</button>
+              v-for="knownLanguage in knownLanguages"
+            >
+              {{ knownLanguage.name }}
+            </button>
           </div>
-          <span>{{ '</>' }}</span>
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="15"
+            height="15"
+            viewBox="0 0 22 22"
+          >
+            <path
+              fill="currentColor"
+              d="M19.775 22.625L7 9.85l-2.175 2.175L9.4 16.6L8 18l-6-6l3.575-3.575l-4.2-4.2L2.8 2.8l18.4 18.4zm-1.35-7.05L17 14.15l2.175-2.175L14.6 7.4L16 6l6 6z"
+            />
+          </svg>
         </button>
 
-        <button class="p-3 bg-white rounded-lg" @click="
-    sendQuery(query),
-    messages.length == 0 && chatsList.push('Chat 1'),
-    (query = ''),
-    autoResizeTextArea(),
-    (showMessage = true)
-    ">
-          <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 20 20">
-            <path fill="currentColor" d="M16.175 13H4v-2h12.175l-5.6-5.6L12 4l8 8l-8 8l-1.425-1.4z" />
+        <button
+          class="p-3 bg-white rounded-lg"
+          @click="
+            sendQuery(query),
+              messages.length == 0 && chatsList.push('Chat 1'),
+              (query = ''),
+              autoResizeTextArea(),
+              (showMessage = true)
+          "
+        >
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="15"
+            height="15"
+            viewBox="0 0 20 20"
+          >
+            <path
+              fill="currentColor"
+              d="M16.175 13H4v-2h12.175l-5.6-5.6L12 4l8 8l-8 8l-1.425-1.4z"
+            />
           </svg>
         </button>
       </div>
     </div>
   </div>
 
-
-  <aside class="fixed top-0 right-0 z-40 w-[400px] h-screen transition-transform -translate-x-full md:translate-x-0"
-    :class="isOpenNav ? 'translate-x-0' : ''">
-    <Notes />
+  <aside
+    class="fixed top-0 left-0 z-40 md:w-[400px] w-[320px] h-screen transition-transform -translate-x-full md:translate-x-0"
+    :class="isOpenNav ? 'translate-x-0' : ''"
+  >
+    <NoteEditor />
   </aside>
 
-  <div v-if="isOpenNav" @click="isOpenNav = false"
-    class="absolute top-0 right-0 w-full h-screen bg-black z-30 opacity-40"></div>
+  <div
+    v-if="isOpenNav"
+    @click="isOpenNav = false"
+    class="absolute top-0 right-0 w-full h-screen bg-black z-30 opacity-40"
+  ></div>
 </template>
 <script setup>
-import { highlightCode } from '@/composables/highlightCode';
-import { separateTextAndCode } from '@/composables/separateCodeAndText';
-import knownLanguage from '@/composables/knownLanguages';
+import { highlightCode } from "@/composables/highlightCode";
+import { separateTextAndCode } from "@/composables/separateCodeAndText";
+import knownLanguage from "@/composables/knownLanguages";
 
 import "highlight.js/styles/github.css";
 const showMessage = ref(false);
@@ -84,23 +144,23 @@ const autoResizeTextArea = () => {
 };
 
 const isOpenNav = ref(false);
-const messages = ref([])
+const messages = ref([]);
 const dummyResponse = {
   sender: "bot",
-  content: separateTextAndCode("The code should be written like this: \n````python\n print('this is python code')```` \n ````cpp\n cout<< ‘hello’ << end;```` ")
-}
-
-
+  content: separateTextAndCode(
+    "The code should be written like this: \n````python\n print('this is python code')```` \n ````cpp\n cout<< ‘hello’ << end;```` "
+  ),
+};
 
 function sendQuery(message) {
   // add message in the current chat
   const request = {
     sender: "user",
     content: separateTextAndCode(message),
-  }
-  messages.value.push(request)
+  };
+  messages.value.push(request);
   // make api call and store the response
-  messages.value.push(dummyResponse)
+  messages.value.push(dummyResponse);
 }
 
 const query = ref("");
@@ -113,13 +173,20 @@ const addBackticksAroundSelection = (language) => {
 
   if (selectionStart !== null && selectionEnd !== null) {
     const selectedText = textarea.value.substring(selectionStart, selectionEnd);
-    const newText = textarea.value.substring(0, selectionStart) + '````' + language + '\n' + selectedText + '````' + textarea.value.substring(selectionEnd);
+    const newText =
+      textarea.value.substring(0, selectionStart) +
+      "````" +
+      language +
+      "\n" +
+      selectedText +
+      "````" +
+      textarea.value.substring(selectionEnd);
     query.value = newText;
   }
-  showKnownLanguages.value = false
+  showKnownLanguages.value = false;
 };
 
-const showKnownLanguages = ref(false)
+const showKnownLanguages = ref(false);
 </script>
 
 <style>
