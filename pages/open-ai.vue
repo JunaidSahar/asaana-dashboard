@@ -20,7 +20,7 @@
   </button>
 
   <div class="md:mr-[450px]">
-    <div class="max-w-3xl mx-auto">
+    <div class="max-w-3xl mx-auto px-4">
       <div
         class="flex flex-col items-center justify-center h-96"
         v-if="!showMessage"
@@ -130,7 +130,7 @@
   </div>
 
   <aside
-    class="fixed top-0 right-0 z-40 md:w-[450px] w-[320px] h-screen transition-transform -translate-x-full md:translate-x-0"
+    class="fixed top-0 right-0 z-40 md:w-[450px] w-[350px] h-screen transition-transform -translate-x-full md:translate-x-0"
     :class="isOpenNav ? 'translate-x-0' : ''"
   >
     <NoteEditor />
