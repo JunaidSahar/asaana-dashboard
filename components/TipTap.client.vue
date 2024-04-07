@@ -51,4 +51,8 @@ const editor = useEditor({
 .tiptap {
   outline: none !important;
 }
+
+.editor > div > div {
+  min-height: 400px;
+}
 </style>
