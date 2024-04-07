@@ -2,7 +2,7 @@
   <div class="w-full border shadow-lg rounded-lg p-4">
     <div v-if="editor">
       <button
-        class="text-sm  text-white"
+        class="text-sm  text-black px-2 py-0.5 bg-white rounded-full"
         @click="editor.chain().focus().toggleCodeBlock().run()"
         :disabled="!editor.can().chain().focus().toggleCode().run()"
         :class="{ 'is-active': editor.isActive('code') }"
@@ -12,7 +12,7 @@
     </div>
     <div class="editor">
       <TiptapEditorContent
-        class="py-4 text-sm text-white"
+        class="py-4 text-sm text-black"
         :editor="editor"
       />
     </div>
@@ -37,7 +37,7 @@ const editor = useEditor({
 
 <style>
 .editor pre {
-  background-color: rgba(255,255,255, 0.4);
+  background-color: rgba(255,255,255, 0.6);
   padding: 1rem;
   backdrop-filter: blur(0.2);
   font-size: 0.9rem;

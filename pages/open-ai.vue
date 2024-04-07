@@ -19,8 +19,8 @@
     </svg>
   </button>
 
-  <div class="md:ml-[400px]">
-    <div class="max-w-3xl mx-auto relative h-screen p-4">
+  <div class="md:mr-[450px]">
+    <div class="max-w-3xl mx-auto">
       <div
         class="flex flex-col items-center justify-center h-96"
         v-if="!showMessage"
@@ -28,96 +28,109 @@
         <Icon name="material-symbols:android" class="h-12 w-12" />
         <h2 class="text-3xl font-medium">How can I help you today?</h2>
       </div>
-      <div class="space-y-10 pb-40 pt-10" v-if="showMessage">
-        <div v-for="message in messages" class="relative">
-          <img
-            class="w-8 absolute -left-16"
-            :src="message.sender == 'bot' ? '/bot.svg' : '/human.png'"
-          />
-          <div class="w-full">
-            <div v-for="line in message.content" class="relative">
-              <div v-if="line.type == 'code'" class="code-snippet">
-                <pre><code v-html="highlightCode(line.content, line.language)"></code></pre>
-              </div>
-              <div v-else>
-                <p>
-                  {{ line.content }}
-                </p>
+      <div class="flex flex-col justify-between h-screen py-6">
+        <div
+          class="space-y-10 pb-10 pt-10 overflow-y-scroll h-full"
+          v-if="showMessage"
+        >
+          <div v-for="message in messages" class="relative">
+            <div
+              class="h-8 w-8 absolute -left-14 rounded-lg bg-blue-100 flex items-center justify-center"
+            >
+              <Icon
+                class="w-5 h-5 text-blue-500"
+                :name="
+                  message.sender !== 'bot'
+                    ? 'material-symbols:person-outline'
+                    : 'material-symbols:android'
+                "
+              />
+            </div>
+            <div class="w-full">
+              <div v-for="line in message.content" class="relative">
+                <div v-if="line.type == 'code'" class="code-snippet">
+                  <pre><code v-html="highlightCode(line.content, line.language)"></code></pre>
+                </div>
+                <div v-else>
+                  <p>
+                    {{ line.content }}
+                  </p>
+                </div>
               </div>
             </div>
           </div>
         </div>
-      </div>
-      <div
-        class="fixed lg:w-[720px] md:w-[520px] w-full px-4 py-2 bg-[#f4f4f6] bottom-8 flex items-end gap-4 border border-slate-200 rounded-lg"
-      >
-        <textarea
-          id="query"
-          type="text"
-          v-model="query"
-          @input="autoResizeTextArea"
-          placeholder="Write a message..."
-          rows="1"
-          class="bg-[#f4f4f6] w-full focus:outline-0 overflow-hidden autoresize"
-        />
-        <button
-          class="p-3 bg-white rounded-lg relative"
-          @mouseenter="showKnownLanguages = true"
-          @mouseleave="showKnownLanguages = false"
+        <div
+          class="w-full px-4 py-2 bg-[#f4f4f6] bottom-8 flex items-end gap-4 border border-slate-200 rounded-lg"
         >
-          <div
-            v-if="showKnownLanguages"
-            class="absolute bottom-10 right-0 bg-white border border-gray-200 rounded"
+          <textarea
+            id="query"
+            type="text"
+            v-model="query"
+            @input="autoResizeTextArea"
+            placeholder="Write a message..."
+            rows="1"
+            class="bg-[#f4f4f6] w-full focus:outline-0 overflow-hidden autoresize"
+          />
+          <button
+            class="p-3 bg-white rounded-lg relative"
+            @mouseenter="showKnownLanguages = true"
+            @mouseleave="showKnownLanguages = false"
           >
-            <button
-              @click="addBackticksAroundSelection(knownLanguage.value)"
-              class="hover:bg-gray-100 px-2 py-1 border-b w-full text-left capitalize"
-              v-for="knownLanguage in knownLanguages"
+            <div
+              v-if="showKnownLanguages"
+              class="absolute bottom-10 right-0 bg-white border border-gray-200 rounded"
             >
-              {{ knownLanguage.name }}
-            </button>
-          </div>
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            width="15"
-            height="15"
-            viewBox="0 0 22 22"
-          >
-            <path
-              fill="currentColor"
-              d="M19.775 22.625L7 9.85l-2.175 2.175L9.4 16.6L8 18l-6-6l3.575-3.575l-4.2-4.2L2.8 2.8l18.4 18.4zm-1.35-7.05L17 14.15l2.175-2.175L14.6 7.4L16 6l6 6z"
-            />
-          </svg>
-        </button>
+              <button
+                @click="addBackticksAroundSelection(knownLanguage.value)"
+                class="hover:bg-gray-100 px-2 py-1 border-b w-full text-left capitalize"
+                v-for="knownLanguage in knownLanguages"
+              >
+                {{ knownLanguage.name }}
+              </button>
+            </div>
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="15"
+              height="15"
+              viewBox="0 0 22 22"
+            >
+              <path
+                fill="currentColor"
+                d="M19.775 22.625L7 9.85l-2.175 2.175L9.4 16.6L8 18l-6-6l3.575-3.575l-4.2-4.2L2.8 2.8l18.4 18.4zm-1.35-7.05L17 14.15l2.175-2.175L14.6 7.4L16 6l6 6z"
+              />
+            </svg>
+          </button>
 
-        <button
-          class="p-3 bg-white rounded-lg"
-          @click="
-            sendQuery(query),
-              messages.length == 0 && chatsList.push('Chat 1'),
-              (query = ''),
-              autoResizeTextArea(),
-              (showMessage = true)
-          "
-        >
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            width="15"
-            height="15"
-            viewBox="0 0 20 20"
+          <button
+            class="p-3 bg-white rounded-lg"
+            @click="
+              sendQuery(query),
+                messages.length == 0 && chatsList.push('Chat 1'),
+                (query = ''),
+                autoResizeTextArea(),
+                (showMessage = true)
+            "
           >
-            <path
-              fill="currentColor"
-              d="M16.175 13H4v-2h12.175l-5.6-5.6L12 4l8 8l-8 8l-1.425-1.4z"
-            />
-          </svg>
-        </button>
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="15"
+              height="15"
+              viewBox="0 0 20 20"
+            >
+              <path
+                fill="currentColor"
+                d="M16.175 13H4v-2h12.175l-5.6-5.6L12 4l8 8l-8 8l-1.425-1.4z"
+              />
+            </svg>
+          </button>
+        </div>
       </div>
     </div>
   </div>
 
   <aside
-    class="fixed top-0 left-0 z-40 md:w-[400px] w-[320px] h-screen transition-transform -translate-x-full md:translate-x-0"
+    class="fixed top-0 right-0 z-40 md:w-[450px] w-[320px] h-screen transition-transform -translate-x-full md:translate-x-0"
     :class="isOpenNav ? 'translate-x-0' : ''"
   >
     <NoteEditor />
