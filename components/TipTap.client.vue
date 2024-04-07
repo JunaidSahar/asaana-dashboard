@@ -37,7 +37,7 @@ const editor = useEditor({
 
 <style>
 .editor pre {
-  background-color: rgba(255,255,255, 0.4);
+  background-color: rgba(255,255,255, 0.3);
   padding: 1rem;
   backdrop-filter: blur(0.2);
   font-size: 0.9rem;
@@ -50,5 +50,9 @@ const editor = useEditor({
 
 .tiptap {
   outline: none !important;
+}
+
+.editor > div > div {
+  min-height: 400px;
 }
 </style>
