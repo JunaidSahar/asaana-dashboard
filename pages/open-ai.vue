@@ -30,7 +30,7 @@
       </div>
       <div class="flex flex-col justify-between h-screen py-6">
         <div
-          class="space-y-10 pb-10 pt-10 overflow-y-scroll h-full"
+          class="space-y-10 pb-10 pt-10 overflow-y-auto h-full"
           v-if="showMessage"
         >
           <div v-for="message in messages" class="relative">
