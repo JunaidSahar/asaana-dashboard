@@ -14,17 +14,23 @@
       <TiptapEditorContent class="py-4 text-sm text-black" :editor="editor" />
     </div>
   </div>
-  <h2 class="text-white pb-2">Generated HTML</h2>
-  <div class="py-4 text-sm p-4 rounded-lg border border-white">
-    <p>
-      {{ currentContent }}
-    </p>
-  </div>
+  <button
+    @click="getSelectedContent"
+    class="text-black p rounded-full p-2 text-sm bg-white"
+  >
+    Generated HTML
+  </button>
 </template>
 
 <script setup>
 const lowlight = TiptapcreateLowlight(Tiptapcommon);
 const currentContent = ref();
+const selectedContent = ref();
+
+function getSelectedContent() {
+  selectedContent.value = currentContent.value;
+  console.log(selectedContent.value);
+}
 
 const editor = useEditor({
   content: "<p>Write code to the editor</p>",
@@ -40,9 +46,6 @@ const editor = useEditor({
     }),
   ],
 });
-const { view, state } = editor;
-console.log(view, state);
-// const currentContent = editor.getHTML();
 </script>
 
 <style>
