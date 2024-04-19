@@ -18,7 +18,7 @@
     @click="getSelectedContent"
     class="text-black p rounded-full p-2 text-sm bg-white"
   >
-    Generated HTML
+    Save
   </button>
 </template>
 
