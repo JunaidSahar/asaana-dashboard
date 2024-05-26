@@ -1,14 +1,16 @@
 <template>
   <div class="flex flex-col w-full py-20 gap-10">
-    <div class="w-5/12 mx-auto space-y-6">
+    <div class="xl:w-5/12 lg:w-7/12 w-full mx-auto space-y-6 px-5">
       <div
         class="w-full border-4 p-3 rounded-2xl border-[#2B8EFD] flex items-center"
       >
-        <Input
+        <input
           placeholder="write a statment"
           class="focus:border-none w-full focus:outline-0"
+          v-model="statementInput"
         />
         <button
+          @click="updateResults"
           class="bg-[#2B8EFD] flex items-center gap-2 p-2 text-white rounded-lg"
         >
           <span> Analyze </span>
@@ -51,19 +53,21 @@
         </div>
       </div>
     </div>
-    <div class="container mx-auto">
+    <div class="container mx-auto px-5" v-if="statementResult">
       <div class="space-y-3" v-if="!isActiveArticles">
         <p class="text-lg font-medium">
           Created At:
           <span class="text-base font-normal">{{
-            new Date(dataa.question_analysis.created_at)
+            new Date(statementResult?.question_analysis?.created_at)
           }}</span>
         </p>
         <h2 class="text-2xl font-semibold">Evidences:</h2>
-        <div class="flex flex-wrap gap-6 items-center">
+        <div
+          class="flex flex-wrap gap-6 items-center xl:justify-normal justify-center"
+        >
           <div
-            v-for="(evidence, index) in dataa.question_analysis.response_json
-              .evidences"
+            v-for="(evidence, index) in statementResult?.question_analysis
+              ?.response_json.evidences"
             :key="index"
             class="shadow-lg max-w-[420px] flex flex-col justify-between px-5 py-8 rounded-lg relative border-2 bg-white border-[#2B8EFD] min-h-72"
           >
@@ -81,9 +85,11 @@
         </div>
       </div>
       <div v-else>
-        <div class="flex flex-wrap gap-6 items-center">
+        <div
+          class="flex flex-wrap gap-6 items-center xl:justify-normal justify-center"
+        >
           <div
-            v-for="(article, index) in dataa.news_articles"
+            v-for="(article, index) in statementResult?.news_articles"
             :key="index"
             class="shadow-lg max-w-[420px] flex flex-col justify-between px-5 py-8 rounded-lg relative border-2 bg-white border-[#2B8EFD] min-h-72"
           >
@@ -109,11 +115,16 @@
         </div>
       </div>
     </div>
+    <div v-else class="flex items-center justify-center min-h-96">
+      <p class="text-2xl font-medium">Write a statement to get results</p>
+    </div>
   </div>
 </template>
 
 <script setup>
 const isActiveArticles = ref(false);
+const statementInput = ref("");
+const statementResult = ref("");
 const dataa = {
   question_analysis: {
     id: "46afb1cc-c277-4ce6-8f74-8a7c9257ea5d",
@@ -165,6 +176,12 @@ const dataa = {
     },
   ],
 };
+
+function updateResults() {
+  // you can call API here to update the statementResult & input value is in statementInput ref
+  //dataa should be the response of the API
+  statementResult.value = dataa;
+}
 
 function formatDate(timestamp) {
   const date = new Date(timestamp);
