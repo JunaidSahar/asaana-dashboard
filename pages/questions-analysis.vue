@@ -32,7 +32,7 @@
           </svg>
         </button>
       </div>
-      <div class="flex items-center justify-center">
+      <div class="flex items-center justify-center md:hidden">
         <div
           class="bg-[#F4F4F6] text-[#7E7E7E] rounded-lg border-[#2B8EFD] border-2"
         >
@@ -53,7 +53,7 @@
         </div>
       </div>
     </div>
-    <div class="container mx-auto px-5" v-if="statementResult">
+    <div class="lg:container mx-auto px-5" v-if="statementResult">
       <div class="space-y-3" v-if="!isActiveArticles">
         <p class="text-lg font-medium">
           Created At:
@@ -61,30 +61,68 @@
             new Date(statementResult?.question_analysis?.created_at)
           }}</span>
         </p>
-        <h2 class="text-2xl font-semibold">Evidences:</h2>
-        <div
-          class="flex flex-wrap gap-6 items-center xl:justify-normal justify-center"
-        >
-          <div
-            v-for="(evidence, index) in statementResult?.question_analysis
-              ?.response_json.evidences"
-            :key="index"
-            class="shadow-lg max-w-[420px] flex flex-col justify-between px-5 py-8 rounded-lg relative border-2 bg-white border-[#2B8EFD] min-h-72"
-          >
-            <a
-              class="text-[#2B8EFD] font-medium text-lg"
-              target="_blank"
-              :href="evidence.article_url"
-              >{{ evidence.source }}</a
-            >
-            <p class="text-2xl font-medium line-clamp-5">{{ evidence.info }}</p>
+        <div class="flex items-start gap-8">
+          <div class="md:w-1/2 space-y-3">
+            <h2 class="text-2xl font-semibold">Evidences:</h2>
             <div
-              class="bg-[#2B8EFD] h-full w-full absolute top-2 left-2 -z-10 rounded-lg"
-            />
+              class="flex flex-wrap gap-6 items-center md:justify-normal justify-center"
+            >
+              <div
+                v-for="(evidence, index) in statementResult?.question_analysis
+                  ?.response_json.evidences"
+                :key="index"
+                class="shadow-lg max-w-[280px] flex flex-col justify-between px-5 py-8 rounded-lg relative border-2 bg-white border-[#2B8EFD] min-h-64"
+              >
+                <a
+                  class="text-[#2B8EFD] font-medium text-lg"
+                  target="_blank"
+                  :href="evidence.article_url"
+                  >{{ evidence.source }}</a
+                >
+                <p class="text-xl font-medium line-clamp-5">
+                  {{ evidence.info }}
+                </p>
+                <div
+                  class="bg-[#2B8EFD] h-full w-full absolute top-2 left-2 -z-10 rounded-lg"
+                />
+              </div>
+            </div>
+          </div>
+          <div class="w-1/2 space-y-3 md:block hidden">
+            <h2 class="text-2xl font-semibold">News Articles:</h2>
+            <div
+              class="flex flex-wrap gap-6 items-center md:justify-normal justify-center"
+            >
+              <div
+                v-for="(article, index) in statementResult?.news_articles"
+                :key="index"
+                class="shadow-lg max-w-[330px] flex flex-col justify-between px-5 py-8 rounded-lg relative border-2 bg-white border-[#2B8EFD] min-h-72"
+              >
+                <div class="space-y-2">
+                  <p class="text-xl font-medium line-clamp-5">
+                    {{ article.article_title }}
+                  </p>
+                  <p class="line-clamp-4">{{ article.article_text }}</p>
+                </div>
+                <div class="flex items-center justify-between">
+                  <p>{{ formatDate(article.created_at) }}</p>
+                  <a
+                    class="text-[#2B8EFD] font-medium text-lg"
+                    target="_blank"
+                    :href="article.article_url"
+                    >Read more</a
+                  >
+                </div>
+                <div
+                  class="bg-[#2B8EFD] h-full w-full absolute top-2 left-2 -z-10 rounded-lg"
+                />
+              </div>
+            </div>
           </div>
         </div>
       </div>
-      <div v-else>
+      <div v-else class="space-y-3">
+        <h2 class="text-2xl font-semibold">News Articles:</h2>
         <div
           class="flex flex-wrap gap-6 items-center xl:justify-normal justify-center"
         >
