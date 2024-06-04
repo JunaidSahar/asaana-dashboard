@@ -70,17 +70,10 @@
                 }
               }
             "
-            class="shadow-lg max-w-[450px] h-max px-5 py-8 rounded-lg relative border-2 bg-white border-[#2B8EFD] min-h-64"
+            class="shadow-lg max-w-[450px] h-max px-5 py-6 rounded-lg relative border-2 bg-white border-[#2B8EFD] cursor-pointer"
           >
-            <img
-              class="rounded-lg"
-              :src="
-                evidence?.image ||
-                'https://www.popoptiq.com/wp-content/uploads/2018/08/articles-lead-image-082418-min.jpg'
-              "
-            />
             <p
-              class="text-base lg:text-lg font-medium my-4"
+              class="text-base lg:text-lg font-medium my-2"
               :class="openedEvidence == index ? '' : 'line-clamp-2'"
             >
               {{ evidence.info }}
@@ -110,13 +103,17 @@
             class="shadow-lg max-w-[420px] flex flex-col justify-between px-5 py-8 rounded-lg relative border-2 bg-white border-[#2B8EFD] min-h-72"
           >
             <div class="space-y-2">
-              <p class="text-2xl font-medium line-clamp-5">
+          <img
+              class="rounded-lg"
+              :src="article?.image"
+            />
+              <p class="text-2xl font-medium line-clamp-1">
                 {{ article.article_title }}
               </p>
-              <p class="line-clamp-4">{{ article.article_text }}</p>
+              <p class="line-clamp-2">{{ article.article_text }}</p>
             </div>
-            <div class="flex items-center justify-between">
-              <p>{{ formatDate(article.created_at) }}</p>
+            <div class="flex items-center justify-between mt-2">
+              <p class="px-2 bg-slate-200 rounded-full">{{ formatDate(article.created_at) }}</p>
               <a
                 class="text-[#2B8EFD] font-medium text-lg"
                 target="_blank"
@@ -141,7 +138,7 @@
 const isActiveArticles = ref(false);
 const statementInput = ref("");
 const statementResult = ref("");
-const dataa = {
+const data = {
   question_analysis: {
     id: "46afb1cc-c277-4ce6-8f74-8a7c9257ea5d",
     created_at: "2024-05-25T06:49:44.606125+00:00",
@@ -170,6 +167,7 @@ const dataa = {
           article_url: "https://www.bbc.com/news/business-35050087",
         },
         {
+        title: "",
           info:
             "Worker shortages have also made it more expensive to find and keep staff. Energy prices surged again when Russia invaded Ukraine, cutting global supplies.",
           source: "BBC News",
@@ -200,6 +198,7 @@ const dataa = {
     {
       id: "ffccdeab-0bbb-454c-bd1b-90309297b044",
       created_at: "2024-05-24T02:36:14.497915+00:00",
+      image: "https://www.popoptiq.com/wp-content/uploads/2018/08/articles-lead-image-082418-min.jpg",
       article_url: "https://www.bbc.com/news/articles/c51nykexzj8o#10",
       article_title: "Energy bills predicted to fall by 7% in July",
       article_text:
@@ -208,6 +207,7 @@ const dataa = {
     {
       id: "2fb90fb8-dd34-4a37-9f4e-f8e7ed4a0eb0",
       created_at: "2024-05-24T02:35:47.95142+00:00",
+      image: "https://www.popoptiq.com/wp-content/uploads/2018/08/articles-lead-image-082418-min.jpg",
       article_url: "https://www.bbc.co.uk/news/business-12196322#10",
       article_title: "How fast are prices rising in the UK?",
       article_text:
@@ -216,6 +216,7 @@ const dataa = {
     {
       id: "f3f045d0-63f4-441e-bc22-7cdfbe683387",
       created_at: "2024-05-24T02:35:09.576062+00:00",
+      image: "https://www.popoptiq.com/wp-content/uploads/2018/08/articles-lead-image-082418-min.jpg",
       article_url: "https://www.bbc.co.uk/news/business-12196322#10",
       article_title: "How fast are prices rising in the UK?",
       article_text:
@@ -224,6 +225,7 @@ const dataa = {
     {
       id: "e24bfb45-56b5-43f1-97de-b9bc671e2560",
       created_at: "2024-05-24T02:30:41.816469+00:00",
+      image: "https://www.popoptiq.com/wp-content/uploads/2018/08/articles-lead-image-082418-min.jpg",
       article_url: "https://www.bbc.co.uk/news/uk-politics-69050402#1",
       article_title: "Chris Mason: Why did Sunak call an election now?",
       article_text:
@@ -232,6 +234,7 @@ const dataa = {
     {
       id: "8f7df227-2346-434e-a27e-de3e0845e481",
       created_at: "2024-05-24T02:27:19.033991+00:00",
+      image: "https://www.popoptiq.com/wp-content/uploads/2018/08/articles-lead-image-082418-min.jpg",
       article_url: "https://www.bbc.com/news/articles/cxeey91v540o#0",
       article_title: "Energy bills likely to fall in July under new cap",
       article_text:
@@ -240,6 +243,7 @@ const dataa = {
     {
       id: "7ef74b5b-dec5-4a1c-99bb-1a5efa26e835",
       created_at: "2024-05-24T02:35:37.905961+00:00",
+      image: "https://www.popoptiq.com/wp-content/uploads/2018/08/articles-lead-image-082418-min.jpg",
       article_url: "https://www.bbc.co.uk/news/business-57764601#10",
       article_title: "When will interest rates come down?",
       article_text:
@@ -248,6 +252,7 @@ const dataa = {
     {
       id: "473340a4-5468-409b-a7e6-b28dc4d8454c",
       created_at: "2024-05-24T02:36:05.625311+00:00",
+      image: "https://www.popoptiq.com/wp-content/uploads/2018/08/articles-lead-image-082418-min.jpg",
       article_url: "https://www.bbc.co.uk/news/business-57764601#10",
       article_title: "When will interest rates come down?",
       article_text:
@@ -256,6 +261,7 @@ const dataa = {
     {
       id: "8b278de8-a227-47a5-a352-c08d77c7315e",
       created_at: "2024-05-24T02:36:48.240107+00:00",
+      image: "https://www.popoptiq.com/wp-content/uploads/2018/08/articles-lead-image-082418-min.jpg",
       article_url: "https://www.bbc.co.uk/news/business-57764601#10",
       article_title: "When will interest rates come down?",
       article_text:
@@ -264,6 +270,7 @@ const dataa = {
     {
       id: "a6df63dc-83c4-4c23-aac5-d1a1a02fe98b",
       created_at: "2024-05-24T02:28:36.241048+00:00",
+      image: "https://www.popoptiq.com/wp-content/uploads/2018/08/articles-lead-image-082418-min.jpg",
       article_url: "https://www.bbc.com/news/articles/c9rr73w103vo#1",
       article_title: "How Rishi Sunak sprang election surprise on Tories",
       article_text:
@@ -272,6 +279,7 @@ const dataa = {
     {
       id: "1181fb3e-14f5-426f-bc4c-abe0d3d84704",
       created_at: "2024-05-24T02:29:16.026483+00:00",
+      image: "https://www.popoptiq.com/wp-content/uploads/2018/08/articles-lead-image-082418-min.jpg",
       article_url: "https://www.bbc.com/news/articles/cxxxn5n09x5o#1",
       article_title: "Sunak attacks Welsh government on campaign visit",
       article_text:
@@ -282,8 +290,8 @@ const dataa = {
 
 function updateResults() {
   // you can call API here to update the statementResult & input value is in statementInput ref
-  //dataa should be the response of the API
-  statementResult.value = dataa;
+  //data should be the response of the API
+  statementResult.value = data;
 }
 
 function formatDate(timestamp) {
